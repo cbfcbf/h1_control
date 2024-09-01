@@ -1,0 +1,12 @@
+<launch>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find test_controller)/config/controllers.yaml" command="load"/>
+
+  <!-- load the controllers -->
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" args="controllers/joint_state_controller controllers/test_controller2"/>
+
+
+</launch>

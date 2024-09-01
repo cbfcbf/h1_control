@@ -1,0 +1,44 @@
+<launch>
+  <!-- <include
+    file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="true" />
+  </include> -->
+  <!-- <node
+    name="spawn_model"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find h1_description)/urdf/h1_cbf_fix.urdf -urdf -z 1.05 -model h1_description"
+    output="screen" /> -->
+
+  <include
+    file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="true" />
+  </include>
+  <node
+    name="spawn_model"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find h1_description)/urdf/h1_cbf.urdf -urdf -z 1.05 -model h1_description"
+    output="screen" />
+  <param name="legged_robot_description" command="cat $(find h1_description)/urdf/h1_cbf.urdf"/>
+  <rosparam file="$(find h1_description)/config/default.yaml" command="load"/>
+
+  <!-- <param name="legged_robot_description" command="cat $(find h1_description)/urdf/h1_cbf_fix.urdf"/>
+
+    <rosparam file="$(find legged_gazebo)/config/default.yaml" command="load"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find legged_gazebo)/worlds/empty_world.world"/>
+    </include>
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" clear_params="true"
+          args="-z 0.5 -param legged_robot_description -urdf -model h1" output="screen"/> -->
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find test_controller)/config/controllers.yaml" command="load"/>
+
+  <!-- load the controllers -->
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" args="controllers/joint_state_controller controllers/test_controller2"/>
+
+
+</launch>
