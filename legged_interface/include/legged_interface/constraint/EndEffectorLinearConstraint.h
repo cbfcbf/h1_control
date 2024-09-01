@@ -27,13 +27,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-/********************************************************************************
-Modified Copyright (c) 2023-2024, BridgeDP Robotics.Co.Ltd. All rights reserved.
-
-For further information, contact: contact@bridgedp.com or visit our website
-at www.bridgedp.com.
-********************************************************************************/
-
 #pragma once
 
 #include <memory>
@@ -42,25 +35,22 @@ at www.bridgedp.com.
 
 #include <ocs2_robotic_tools/end_effector/EndEffectorKinematics.h>
 
-namespace ocs2
-{
-namespace legged_robot
-{
+namespace ocs2 {
+namespace legged_robot {
+
 /**
  * Defines a linear constraint on an end-effector position (xee) and linear velocity (vee).
  * g(xee, vee) = Ax * xee + Av * vee + b
  * - For defining constraint of type g(xee), set Av to matrix_t(0, 0)
  * - For defining constraint of type g(vee), set Ax to matrix_t(0, 0)
  */
-class EndEffectorLinearConstraint final : public StateInputConstraint
-{
-public:
+class EndEffectorLinearConstraint final : public StateInputConstraint {
+ public:
   /**
    * Coefficients of the linear constraints of the form:
    * g(xee, vee) = Ax * xee + Av * vee + b
    */
-  struct Config
-  {
+  struct Config {
     vector_t b;
     matrix_t Ax;
     matrix_t Av;
@@ -76,35 +66,22 @@ public:
                               Config config = Config());
 
   ~EndEffectorLinearConstraint() override = default;
-  EndEffectorLinearConstraint* clone() const override
-  {
-    return new EndEffectorLinearConstraint(*this);
-  }
+  EndEffectorLinearConstraint* clone() const override { return new EndEffectorLinearConstraint(*this); }
 
   /** Sets a new constraint coefficients. */
   void configure(Config&& config);
   /** Sets a new constraint coefficients. */
-  void configure(const Config& config)
-  {
-    this->configure(Config(config));
-  }
+  void configure(const Config& config) { this->configure(Config(config)); }
 
   /** Gets the underlying end-effector kinematics interface. */
-  EndEffectorKinematics<scalar_t>& getEndEffectorKinematics()
-  {
-    return *endEffectorKinematicsPtr_;
-  }
+  EndEffectorKinematics<scalar_t>& getEndEffectorKinematics() { return *endEffectorKinematicsPtr_; }
 
-  size_t getNumConstraints(scalar_t time) const override
-  {
-    return numConstraints_;
-  }
-  vector_t getValue(scalar_t time, const vector_t& state, const vector_t& input,
-                    const PreComputation& preComp) const override;
+  size_t getNumConstraints(scalar_t time) const override { return numConstraints_; }
+  vector_t getValue(scalar_t time, const vector_t& state, const vector_t& input, const PreComputation& preComp) const override;
   VectorFunctionLinearApproximation getLinearApproximation(scalar_t time, const vector_t& state, const vector_t& input,
                                                            const PreComputation& preComp) const override;
 
-private:
+ private:
   EndEffectorLinearConstraint(const EndEffectorLinearConstraint& rhs);
 
   std::unique_ptr<EndEffectorKinematics<scalar_t>> endEffectorKinematicsPtr_;

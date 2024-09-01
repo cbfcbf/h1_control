@@ -6,3 +6,5 @@ controllers:
     type: legged/LeggedController
   legged_cheater_controller:
     type: legged/LeggedCheaterController
+  test_controller2:
+    type: legged/TestController2

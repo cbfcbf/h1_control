@@ -7,3 +7,13 @@ gazebo:
       angular_velocity_covariance: [ 0.0004, 0.0004, 0.0004 ]
       linear_acceleration_covariance: [ 0.01, 0.01, 0.01 ]
   contacts: [ "LF_FOOT", "LH_FOOT", "RF_FOOT", "RH_FOOT" ]
+
+gazebo:
+  delay: 0.009
+  imus:
+    base_imu:
+      frame_id: imu_link
+      orientation_covariance_diagonal: [ 0.0012, 0.0012, 0.0012 ]
+      angular_velocity_covariance: [ 0.0004, 0.0004, 0.0004 ]
+      linear_acceleration_covariance: [ 0.01, 0.01, 0.01 ]
+  contacts: [ "leg_l_f1_link", "leg_l_f2_link", "leg_r_f1_link", "leg_r_f2_link"  ]

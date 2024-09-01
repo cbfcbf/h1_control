@@ -27,51 +27,36 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-/********************************************************************************
-Modified Copyright (c) 2023-2024, BridgeDP Robotics.Co.Ltd. All rights reserved.
-
-For further information, contact: contact@bridgedp.com or visit our website
-at www.bridgedp.com.
-********************************************************************************/
-
 #include "legged_interface/initialization/LeggedRobotInitializer.h"
 
 #include <ocs2_centroidal_model/AccessHelperFunctions.h>
-#include <legged_interface/common/utils.h>
+#include <ocs2_legged_robot/common/utils.h>
 
-namespace ocs2
-{
-namespace legged_robot
-{
+namespace ocs2 {
+namespace legged_robot {
+
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-LeggedRobotInitializer::LeggedRobotInitializer(CentroidalModelInfo info,
-                                               const SwitchedModelReferenceManager& referenceManager,
+LeggedRobotInitializer::LeggedRobotInitializer(CentroidalModelInfo info, const SwitchedModelReferenceManager& referenceManager,
                                                bool extendNormalizedMomentum)
-  : info_(std::move(info)), referenceManagerPtr_(&referenceManager), extendNormalizedMomentum_(extendNormalizedMomentum)
-{
-}
+    : info_(std::move(info)), referenceManagerPtr_(&referenceManager), extendNormalizedMomentum_(extendNormalizedMomentum) {}
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-LeggedRobotInitializer* LeggedRobotInitializer::clone() const
-{
+LeggedRobotInitializer* LeggedRobotInitializer::clone() const {
   return new LeggedRobotInitializer(*this);
 }
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-void LeggedRobotInitializer::compute(scalar_t time, const vector_t& state, scalar_t nextTime, vector_t& input,
-                                     vector_t& nextState)
-{
+void LeggedRobotInitializer::compute(scalar_t time, const vector_t& state, scalar_t nextTime, vector_t& input, vector_t& nextState) {
   const auto contactFlags = referenceManagerPtr_->getContactFlags(time);
   input = weightCompensatingInput(info_, contactFlags);
   nextState = state;
-  if (!extendNormalizedMomentum_)
-  {
+  if (!extendNormalizedMomentum_) {
     centroidal_model::getNormalizedMomentum(nextState, info_).setZero();
   }
 }

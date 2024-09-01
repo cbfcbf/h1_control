@@ -7,12 +7,7 @@ find_package(catkin REQUIRED
         COMPONENTS
         roscpp
         ocs2_legged_robot
-        ocs2_legged_robot_ros
         ocs2_self_collision
-        ocs2_ros_interfaces
-        legged_common
-        rospy
-        std_msgs
         )
 
 find_package(Boost REQUIRED COMPONENTS
@@ -33,14 +28,9 @@ catkin_package(
         CATKIN_DEPENDS
         roscpp
         ocs2_legged_robot
-        ocs2_legged_robot_ros
         ocs2_self_collision
-        ocs2_ros_interfaces
-        legged_common
         DEPENDS
         pinocchio
-        rospy
-        std_msgs
 )
 
 ###########
@@ -58,30 +48,17 @@ link_directories(
         ${pinocchio_LIBRARY_DIRS}
 )
 
-add_library(${PROJECT_NAME} SHARED
+add_library(${PROJECT_NAME}
         src/constraint/EndEffectorLinearConstraint.cpp
         src/constraint/FrictionConeConstraint.cpp
         src/constraint/ZeroForceConstraint.cpp
         src/constraint/NormalVelocityConstraintCppAd.cpp
         src/constraint/ZeroVelocityConstraintCppAd.cpp
-        src/foot_planner/CubicSpline.cpp
-        src/foot_planner/MultiCubicSpline.cpp
-        src/foot_planner/SplineCpg.cpp
-        src/foot_planner/SwingTrajectoryPlanner.cpp
-        src/foot_planner/InverseKinematics.cpp
-        src/common/ModelSettings.cpp
+        src/constraint/SwingTrajectoryPlanner.cpp
         src/initialization/LeggedRobotInitializer.cpp
         src/SwitchedModelReferenceManager.cpp
         src/LeggedRobotPreComputation.cpp
         src/LeggedInterface.cpp
-        src/visualization/LeggedRobotVisualizer.cpp
-        src/constraint/XYReferenceConstraintCppAd.cpp
-        src/constraint/XYLimitConstraint.cpp
-        src/gait/GaitSchedule.cpp
-        src/gait/Gait.cpp
-        src/gait/LegLogic.cpp
-        src/gait/ModeSequenceTemplate.cpp
-        src/dynamics/LeggedRobotDynamicsAD.cpp
         )
 
 target_link_libraries(${PROJECT_NAME}
@@ -90,35 +67,6 @@ target_link_libraries(${PROJECT_NAME}
         )
 
 target_compile_options(${PROJECT_NAME} PUBLIC ${OCS2_CXX_FLAGS})
-
-## SQP-MPC node for legged robot
-add_executable(legged_robot_sqp_mpc
-  src/test/LeggedRobotSqpMpcNode.cpp
-)
-add_dependencies(legged_robot_sqp_mpc
-  ${PROJECT_NAME}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(legged_robot_sqp_mpc
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
-target_compile_options(legged_robot_sqp_mpc PRIVATE ${OCS2_CXX_FLAGS})
-
-# Dummy node
-add_executable(legged_robot_dummy
-  src/test/LeggedRobotDummyNode.cpp
-)
-add_dependencies(legged_robot_dummy
-  ${PROJECT_NAME}
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
-)
-target_link_libraries(legged_robot_dummy
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
-target_compile_options(legged_robot_dummy PRIVATE ${OCS2_CXX_FLAGS})
 
 #########################
 ###   CLANG TOOLING   ###

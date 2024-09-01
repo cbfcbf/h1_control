@@ -27,13 +27,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-/********************************************************************************
-Modified Copyright (c) 2023-2024, BridgeDP Robotics.Co.Ltd. All rights reserved.
-
-For further information, contact: contact@bridgedp.com or visit our website
-at www.bridgedp.com.
-********************************************************************************/
-
 #pragma once
 
 #include <ocs2_centroidal_model/CentroidalModelInfo.h>
@@ -41,13 +34,11 @@ at www.bridgedp.com.
 
 #include "legged_interface/SwitchedModelReferenceManager.h"
 
-namespace ocs2
-{
-namespace legged_robot
-{
-class LeggedRobotInitializer final : public Initializer
-{
-public:
+namespace ocs2 {
+namespace legged_robot {
+
+class LeggedRobotInitializer final : public Initializer {
+ public:
   /*
    * Constructor
    * @param [in] info : The centroidal model information.
@@ -62,7 +53,7 @@ public:
 
   void compute(scalar_t time, const vector_t& state, scalar_t nextTime, vector_t& input, vector_t& nextState) override;
 
-private:
+ private:
   LeggedRobotInitializer(const LeggedRobotInitializer& other) = default;
 
   const CentroidalModelInfo info_;

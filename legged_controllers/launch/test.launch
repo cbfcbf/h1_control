@@ -1,11 +1,26 @@
-<?xml version="1.0" ?>
-
 <launch>
     <arg name="robot_type" default="h1" doc="Robot type: [a1, aliengo, go1, laikago]"/>
 
+    <param name="legged_robot_description" command="cat $(find h1_description)/urdf/h1_cbf.urdf"/>
+    
+      <rosparam file="$(find h1_description)/config/default.yaml" command="load"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find legged_gazebo)/worlds/empty_world.world"/>
+        <!-- <arg name="paused" value="true" /> -->
+    </include>
+
+  <node
+    name="spawn_model"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find h1_description)/urdf/h1_cbf.urdf -urdf -z 1.05 -model h1_description"
+    output="screen" />
+
+
+<!-- controller -->
     <arg name="cheater" default="true"/>
 
-    <!-- make the files into global parameters -->
     <param name="urdfFile" value="$(find legged_controllers)/config/$(arg robot_type)/h1_cbf.urdf"/>
     <param name="taskFile" value="$(find legged_controllers)/config/$(arg robot_type)/task.info"/>
     <param name="referenceFile" value="$(find legged_controllers)/config/$(arg robot_type)/reference.info"/>
@@ -14,13 +29,19 @@
     <rosparam file="$(find legged_controllers)/config/controllers.yaml" command="load"/>
 
     <node if="$(arg cheater)" name="controller_loader" pkg="controller_manager" type="controller_manager"
-          output="screen" args="load
+          output="screen" args="spawn
           controllers/joint_state_controller
           controllers/legged_cheater_controller
 "/>
 
+    <!-- <node if="$(arg cheater)" name="controller_loader" pkg="controller_manager" type="controller_manager"
+          output="screen" args="spawn
+          controllers/joint_state_controller
+        controllers/test_controller2
+"/> -->
+
     <node unless="$(arg cheater)" name="controller_loader" pkg="controller_manager" type="controller_manager"
-          output="screen" args="load
+          output="screen" args="spawn
           controllers/joint_state_controller
           controllers/legged_controller
 "/>
@@ -30,5 +51,8 @@
 
     <node pkg="legged_controllers" type="legged_target_trajectories_publisher" name="legged_robot_target"
           output="screen"/>
+
+      <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" output="screen" />
+
 
 </launch>

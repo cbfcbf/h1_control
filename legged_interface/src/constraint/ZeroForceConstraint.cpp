@@ -27,68 +27,47 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-/********************************************************************************
-Modified Copyright (c) 2023-2024, BridgeDP Robotics.Co.Ltd. All rights reserved.
-
-For further information, contact: contact@bridgedp.com or visit our website
-at www.bridgedp.com.
-********************************************************************************/
-
 #include "legged_interface/constraint/ZeroForceConstraint.h"
 
 #include <ocs2_centroidal_model/AccessHelperFunctions.h>
 
-namespace ocs2
-{
-namespace legged_robot
-{
-/******************************************************************************************************/
-/******************************************************************************************************/
-/******************************************************************************************************/
-ZeroForceConstraint::ZeroForceConstraint(const SwitchedModelReferenceManager& referenceManager,
-                                         size_t contactPointIndex, CentroidalModelInfo info)
-  : StateInputConstraint(ConstraintOrder::Linear)
-  , referenceManagerPtr_(&referenceManager)
-  , contactPointIndex_(contactPointIndex)
-  , info_(std::move(info))
-{
-}
+namespace ocs2 {
+namespace legged_robot {
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-bool ZeroForceConstraint::isActive(scalar_t time) const
-{
+ZeroForceConstraint::ZeroForceConstraint(const SwitchedModelReferenceManager& referenceManager, size_t contactPointIndex,
+                                         CentroidalModelInfo info)
+    : StateInputConstraint(ConstraintOrder::Linear),
+      referenceManagerPtr_(&referenceManager),
+      contactPointIndex_(contactPointIndex),
+      info_(std::move(info)) {}
+
+/******************************************************************************************************/
+/******************************************************************************************************/
+/******************************************************************************************************/
+bool ZeroForceConstraint::isActive(scalar_t time) const {
   return !referenceManagerPtr_->getContactFlags(time)[contactPointIndex_];
 }
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-vector_t ZeroForceConstraint::getValue(scalar_t time, const vector_t& state, const vector_t& input,
-                                       const PreComputation& preComp) const
-{
-  vector_t force(getNumConstraints(time));
-  force << centroidal_model::getContactForces(input, contactPointIndex_, info_);
-  return force;
+vector_t ZeroForceConstraint::getValue(scalar_t time, const vector_t& state, const vector_t& input, const PreComputation& preComp) const {
+  return centroidal_model::getContactForces(input, contactPointIndex_, info_);
 }
 
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-VectorFunctionLinearApproximation ZeroForceConstraint::getLinearApproximation(scalar_t time, const vector_t& state,
-                                                                              const vector_t& input,
-                                                                              const PreComputation& preComp) const
-{
+VectorFunctionLinearApproximation ZeroForceConstraint::getLinearApproximation(scalar_t time, const vector_t& state, const vector_t& input,
+                                                                              const PreComputation& preComp) const {
   VectorFunctionLinearApproximation approx;
   approx.f = getValue(time, state, input, preComp);
-  approx.dfdx = matrix_t::Zero(getNumConstraints(time), state.size());
-  approx.dfdu = matrix_t::Zero(getNumConstraints(time), input.size());
-  const size_t contactForceIndex = 3 * contactPointIndex_;
-  const size_t contactWrenchIndex =
-      3 * info_.numThreeDofContacts + 6 * (contactPointIndex_ - info_.numThreeDofContacts);
-  const size_t startRow = (contactPointIndex_ < info_.numThreeDofContacts) ? contactForceIndex : contactWrenchIndex;
-  approx.dfdu.middleCols(startRow, getNumConstraints(time)).diagonal() = vector_t::Ones(getNumConstraints(time));
+  approx.dfdx = matrix_t::Zero(3, state.size());
+  approx.dfdu = matrix_t::Zero(3, input.size());
+  approx.dfdu.middleCols<3>(3 * contactPointIndex_).diagonal() = vector_t::Ones(3);
   return approx;
 }
 

@@ -1317,138 +1317,8 @@
     </joint>
 
 
-  <!-- 增加接触点 -->
-
-  <joint name="leg_l5_fixed_1" type="fixed">
-    <origin xyz="0.2 0 -0.3" rpy="0 0 0" />
-    <parent link="left_ankle_link" />
-    <child link="leg_l_f1_link" />
-  </joint>
-  <link name="leg_l_f1_link">
-    <inertial>
-      <mass value="0.01" />
-      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001" />
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.001"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="leg_l5_fixed_2" type="fixed">
-    <origin xyz="-0.1 0 -0.3" rpy="0 0 0" />
-    <parent link="left_ankle_link" />
-    <child link="leg_l_f2_link" />
-  </joint>
-  <link name="leg_l_f2_link">
-    <inertial>
-      <mass value="0.01" />
-      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001" />
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="-0 0 0"/>
-      <geometry>
-        <sphere radius="0.001"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="leg_r5_fixed_1" type="fixed">
-    <origin xyz="0.2 0 -0.3" rpy="0 0 0" />
-    <parent link="right_ankle_link" />
-    <child link="leg_r_f1_link" />
-  </joint>
-  <link name="leg_r_f1_link">
-    <inertial>
-      <mass value="0.01" />
-      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001" />
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.001"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="leg_r5_fixed_2" type="fixed">
-    <origin xyz="-0.1 0 -0.3" rpy="0 0 0" />
-    <parent link="right_ankle_link" />
-    <child link="leg_r_f2_link" />
-  </joint>
-  <link name="leg_r_f2_link">
-    <inertial>
-      <mass value="0.01" />
-      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001" />
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.001"/>
-      </geometry>
-    </collision>
-  </link>
-
   <!-- gazebo configuration -->
 
-    <gazebo reference="leg_r_f2_link">
-      <material>Gazebo/Orange</material>
-    </gazebo>
-    <!-- fix的关节不与父连接合并 -->
-    <gazebo reference="leg_r5_fixed_2">
-      <disableFixedJointLumping>true</disableFixedJointLumping>
-    </gazebo>
-
-    <gazebo reference="leg_r_f1_link">
-      <material>Gazebo/Orange</material>
-    </gazebo>
-    <!-- fix的关节不与父连接合并 -->
-    <gazebo reference="leg_r5_fixed_1">
-      <disableFixedJointLumping>true</disableFixedJointLumping>
-    </gazebo>    
-    
-    <gazebo reference="leg_l_f2_link">
-      <material>Gazebo/Orange</material>
-    </gazebo>
-    <!-- fix的关节不与父连接合并 -->
-    <gazebo reference="leg_l5_fixed_2">
-      <disableFixedJointLumping>true</disableFixedJointLumping>
-    </gazebo>    
-    
-    <gazebo reference="leg_l_f1_link">
-      <material>Gazebo/Orange</material>
-    </gazebo>
-    <!-- fix的关节不与父连接合并 -->
-    <gazebo reference="leg_l5_fixed_1">
-      <disableFixedJointLumping>true</disableFixedJointLumping>
-    </gazebo>    
-    
     <gazebo reference="imu_link">
       <material>Gazebo/Orange</material>
     </gazebo>
@@ -1457,103 +1327,55 @@
       <disableFixedJointLumping>true</disableFixedJointLumping>
     </gazebo>
 
-
-    <gazebo reference="left_hip_yaw_joint">
+    <!-- feel it related with contact accuracy -->
+    <gazebo reference="left_ankle_link">
       <mu1>0.6</mu1>
       <mu2>0.6</mu2>
       <self_collide>1</self_collide>
-    </gazebo>
-    <gazebo reference="left_hip_roll_joint">
-      <mu1>0.6</mu1>
-      <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
-    </gazebo>
-    <gazebo reference="left_hip_pitch_joint">
-      <mu1>0.6</mu1>
-      <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
-    </gazebo>
-    <gazebo reference="left_knee_joint">
-      <mu1>0.6</mu1>
-      <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
-    </gazebo>
-    <gazebo reference="left_ankle_joint">
-      <mu1>1.5</mu1>
-      <mu2>1.5</mu2>
-      <self_collide>1</self_collide>
+      <material>Gazebo/DarkGrey</material>
       <kp value="1000000.0"/>
       <kd value="100.0"/>
-      <maxVel>1.0</maxVel>
-      <minDepth>0.00</minDepth>
     </gazebo>
-    <gazebo reference="leg_l_f1_link">
-      <mu1>1.5</mu1>
-      <mu2>1.5</mu2>
+    <gazebo reference="right_ankle_link">
+      <mu1>0.6</mu1>
+      <mu2>0.6</mu2>
       <self_collide>1</self_collide>
+      <material>Gazebo/DarkGrey</material>
       <kp value="1000000.0"/>
       <kd value="100.0"/>
-      <maxVel>1.0</maxVel>
-      <minDepth>0.00</minDepth>
-    </gazebo>
-    <gazebo reference="leg_l_f2_link">
-      <mu1>1.5</mu1>
-      <mu2>1.5</mu2>
-      <self_collide>1</self_collide>
-      <kp value="1000000.0"/>
-      <kd value="100.0"/>
-      <maxVel>1.0</maxVel>
-      <minDepth>0.00</minDepth>
     </gazebo>
 
-
-    <gazebo reference="right_hip_yaw_joint">
-      <mu1>0.6</mu1>
-      <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
+    
+    <!-- 
+    <gazebo reference="LF_foot_fixed">
+      <disableFixedJointLumping>true</disableFixedJointLumping>
     </gazebo>
-    <gazebo reference="right_hip_roll_joint">
-      <mu1>0.6</mu1>
-      <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
+    <gazebo reference="LF_hip">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <material>Gazebo/DarkGrey</material>
     </gazebo>
-    <gazebo reference="right_hip_pitch_joint">
-      <mu1>0.6</mu1>
-      <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
-    </gazebo>
-    <gazebo reference="right_knee_joint">
-      <mu1>0.6</mu1>
-      <mu2>0.6</mu2>
-      <self_collide>1</self_collide>
-    </gazebo>
-    <gazebo reference="right_ankle_joint">
-      <mu1>1.5</mu1>
-      <mu2>1.5</mu2>
-      <self_collide>1</self_collide>
+    <gazebo reference="LF_thigh">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <self_collide>0</self_collide>
+      <material>Gazebo/DarkGrey</material>
       <kp value="1000000.0"/>
       <kd value="100.0"/>
-      <maxVel>1.0</maxVel>
-      <minDepth>0.00</minDepth>
     </gazebo>
-    <gazebo reference="leg_r_f1_link">
-      <mu1>1.5</mu1>
-      <mu2>1.5</mu2>
+    <gazebo reference="LF_calf">
+      <mu1>0.6</mu1>
+      <mu2>0.6</mu2>
       <self_collide>1</self_collide>
+    </gazebo>
+    <gazebo reference="LF_FOOT">
+      <mu1>0.6</mu1>
+      <mu2>0.6</mu2>
+      <self_collide>1</self_collide>
+      <material>Gazebo/DarkGrey</material>
       <kp value="1000000.0"/>
       <kd value="100.0"/>
-      <maxVel>1.0</maxVel>
-      <minDepth>0.00</minDepth>
-    </gazebo>
-    <gazebo reference="leg_r_f2_link">
-      <mu1>1.5</mu1>
-      <mu2>1.5</mu2>
-      <self_collide>1</self_collide>
-      <kp value="1000000.0"/>
-      <kd value="100.0"/>
-      <maxVel>1.0</maxVel>
-      <minDepth>0.00</minDepth>
-    </gazebo>
+    </gazebo> -->
 
   <!-- transmission -->
     <!-- Left Leg -->

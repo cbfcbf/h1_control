@@ -27,13 +27,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
-/********************************************************************************
-Modified Copyright (c) 2023-2024, BridgeDP Robotics.Co.Ltd. All rights reserved.
-
-For further information, contact: contact@bridgedp.com or visit our website
-at www.bridgedp.com.
-********************************************************************************/
-
 #pragma once
 
 #include <ocs2_core/constraint/StateInputConstraint.h>
@@ -41,19 +34,17 @@ at www.bridgedp.com.
 #include "legged_interface/SwitchedModelReferenceManager.h"
 #include "legged_interface/constraint/EndEffectorLinearConstraint.h"
 
-namespace ocs2
-{
-namespace legged_robot
-{
+namespace ocs2 {
+namespace legged_robot {
+
 /**
  * Specializes the CppAd version of zero velocity constraint on an end-effector position and linear velocity.
  * Constructs the member EndEffectorLinearConstraint object with number of constraints of 3.
  *
  * See also EndEffectorLinearConstraint for the underlying computation.
  */
-class ZeroVelocityConstraintCppAd final : public StateInputConstraint
-{
-public:
+class ZeroVelocityConstraintCppAd final : public StateInputConstraint {
+ public:
   /**
    * Constructor
    * @param [in] referenceManager : Switched model ReferenceManager
@@ -66,22 +57,15 @@ public:
                               EndEffectorLinearConstraint::Config config = EndEffectorLinearConstraint::Config());
 
   ~ZeroVelocityConstraintCppAd() override = default;
-  ZeroVelocityConstraintCppAd* clone() const override
-  {
-    return new ZeroVelocityConstraintCppAd(*this);
-  }
+  ZeroVelocityConstraintCppAd* clone() const override { return new ZeroVelocityConstraintCppAd(*this); }
 
   bool isActive(scalar_t time) const override;
-  size_t getNumConstraints(scalar_t time) const override
-  {
-    return 3;
-  }
-  vector_t getValue(scalar_t time, const vector_t& state, const vector_t& input,
-                    const PreComputation& preComp) const override;
+  size_t getNumConstraints(scalar_t time) const override { return 3; }
+  vector_t getValue(scalar_t time, const vector_t& state, const vector_t& input, const PreComputation& preComp) const override;
   VectorFunctionLinearApproximation getLinearApproximation(scalar_t time, const vector_t& state, const vector_t& input,
                                                            const PreComputation& preComp) const override;
 
-private:
+ private:
   ZeroVelocityConstraintCppAd(const ZeroVelocityConstraintCppAd& rhs);
 
   const SwitchedModelReferenceManager* referenceManagerPtr_;

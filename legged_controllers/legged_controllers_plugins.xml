@@ -13,4 +13,7 @@
             The basic legged controller with cheat state estimator
         </description>
     </class>
+    <class name="legged/TestController2" type="legged::TestController2" base_class_type="controller_interface::ControllerBase">
+    <description>Controller to print joint information.</description>
+  </class>
 </library>
