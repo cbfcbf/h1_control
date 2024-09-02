@@ -1,3 +1,18 @@
+It is an on-going project...
+
+# Project Reference
+
+[legged-control by Qiayuan Liao](https://github.com/qiayuanl/legged_control?tab=readme-ov-file): Nonlinear MPC and WBC framework for legged robot based on OCS2 and ros-controls.
+
+[hunter-bipedal-control by BridgeDP](https://github.com/bridgedp/hunter_bipedal_control): An open source bipedal robot control framework, based on non-linear MPC and WBC, tailered for EC-hunter80-v01 bipedal robot. 
+
+[humanoid-control by Jialong Xue](https://github.com/pocketxjl/humanoid-control): Nonlinear MPC and WBC framework for humanoid robot based on OCS2 and ros-controls.
+
+# How to one-start?
+   ```
+    roslaunch legged_controllers test.launch 
+   ```
+
 # legged_control
 
 ## Introduction
