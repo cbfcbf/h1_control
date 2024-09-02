@@ -35,7 +35,7 @@ bool LeggedController::init(hardware_interface::RobotHW* robot_hw, ros::NodeHand
   controller_nh.getParam("/taskFile", taskFile);
   controller_nh.getParam("/referenceFile", referenceFile);
   bool verbose = false;
-  loadData::loadCppDataType(taskFile, "legged_robot_interface.verbose", verbose);
+  loadData::loadCppDataType(taskFile, "humanoid_interface.verbose", verbose);
 
   setupLeggedInterface(taskFile, urdfFile, referenceFile, verbose);
   setupMpc();
@@ -66,13 +66,13 @@ bool LeggedController::init(hardware_interface::RobotHW* robot_hw, ros::NodeHand
   // State estimation
   setupStateEstimate(taskFile, verbose);
 
-  // // Whole body control
-  // wbc_ = std::make_shared<WeightedWbc>(leggedInterface_->getPinocchioInterface(), leggedInterface_->getCentroidalModelInfo(),
-  //                                      *eeKinematicsPtr_);
-  // wbc_->loadTasksSetting(taskFile, verbose);
+  // Whole body control
+  wbc_ = std::make_shared<WeightedWbc>(leggedInterface_->getPinocchioInterface(), leggedInterface_->getCentroidalModelInfo(),
+                                       *eeKinematicsPtr_);
+  wbc_->loadTasksSetting(taskFile, verbose);
 
-  // // Safety Checker
-  // safetyChecker_ = std::make_shared<SafetyChecker>(leggedInterface_->getCentroidalModelInfo());
+  // Safety Checker
+  safetyChecker_ = std::make_shared<SafetyChecker>(leggedInterface_->getCentroidalModelInfo());
 
   return true;
 }
@@ -117,27 +117,27 @@ void LeggedController::update(const ros::Time& time, const ros::Duration& period
   size_t plannedMode = 0;  // The mode that is active at the time the policy is evaluated at.
   mpcMrtInterface_->evaluatePolicy(currentObservation_.time, currentObservation_.state, optimizedState, optimizedInput, plannedMode);
 
-  // // Whole body control
-  // currentObservation_.input = optimizedInput;
+  // Whole body control
+  currentObservation_.input = optimizedInput;
 
-  // wbcTimer_.startTimer();
-  // vector_t x = wbc_->update(optimizedState, optimizedInput, measuredRbdState_, plannedMode, period.toSec());
-  // wbcTimer_.endTimer();
+  wbcTimer_.startTimer();
+  vector_t x = wbc_->update(optimizedState, optimizedInput, measuredRbdState_, plannedMode, period.toSec());
+  wbcTimer_.endTimer();
 
-  // vector_t torque = x.tail(12);
+  vector_t torque = x.tail(10);
 
-  // vector_t posDes = centroidal_model::getJointAngles(optimizedState, leggedInterface_->getCentroidalModelInfo());
-  // vector_t velDes = centroidal_model::getJointVelocities(optimizedInput, leggedInterface_->getCentroidalModelInfo());
+  vector_t posDes = centroidal_model::getJointAngles(optimizedState, leggedInterface_->getCentroidalModelInfo());
+  vector_t velDes = centroidal_model::getJointVelocities(optimizedInput, leggedInterface_->getCentroidalModelInfo());
 
-  // // Safety check, if failed, stop the controller
-  // if (!safetyChecker_->check(currentObservation_, optimizedState, optimizedInput)) {
-  //   ROS_ERROR_STREAM("[Legged Controller] Safety check failed, stopping the controller.");
-  //   stopRequest(time);
-  // }
+  // Safety check, if failed, stop the controller
+  if (!safetyChecker_->check(currentObservation_, optimizedState, optimizedInput)) {
+    ROS_ERROR_STREAM("[Legged Controller] Safety check failed, stopping the controller.");
+    stopRequest(time);
+  }
 
-  // for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
-  //   hybridJointHandles_[j].setCommand(posDes(j), velDes(j), 0, 3, torque(j));
-  // }
+  for (size_t j = 0; j < leggedInterface_->getCentroidalModelInfo().actuatedDofNum; ++j) {
+    hybridJointHandles_[j].setCommand(posDes(j), velDes(j), 0, 3, torque(j));
+  }
 
   // Visualization
   robotVisualizer_->update(currentObservation_, mpcMrtInterface_->getPolicy(), mpcMrtInterface_->getCommand());
@@ -195,10 +195,10 @@ LeggedController::~LeggedController() {
   std::cerr << "\n### MPC Benchmarking";
   std::cerr << "\n###   Maximum : " << mpcTimer_.getMaxIntervalInMilliseconds() << "[ms].";
   std::cerr << "\n###   Average : " << mpcTimer_.getAverageInMilliseconds() << "[ms]." << std::endl;
-  // std::cerr << "########################################################################";
-  // std::cerr << "\n### WBC Benchmarking";
-  // std::cerr << "\n###   Maximum : " << wbcTimer_.getMaxIntervalInMilliseconds() << "[ms].";
-  // std::cerr << "\n###   Average : " << wbcTimer_.getAverageInMilliseconds() << "[ms].";
+  std::cerr << "########################################################################";
+  std::cerr << "\n### WBC Benchmarking";
+  std::cerr << "\n###   Maximum : " << wbcTimer_.getMaxIntervalInMilliseconds() << "[ms].";
+  std::cerr << "\n###   Average : " << wbcTimer_.getAverageInMilliseconds() << "[ms].";
 }
 
 void LeggedController::setupLeggedInterface(const std::string& taskFile, const std::string& urdfFile, const std::string& referenceFile,
@@ -292,12 +292,12 @@ public:
     for (const auto& joint_name : joint_names) {
       hybridJointHandles_.push_back(hybridJointInterface->getHandle(joint_name));
     }
-    auto* contactInterface = robot_hw->get<ContactSensorInterface>();
-    std::vector<std::string> contact_names{"right_ankle_link", "left_ankle_link"};
+    // auto* contactInterface = robot_hw->get<ContactSensorInterface>();
+    // std::vector<std::string> contact_names{"leg_l_f1_link", "leg_r_f1_link", "leg_l_f2_link","leg_r_f2_link"};
 
-    for (const auto& name : contact_names) {
-    contactHandles_.push_back(contactInterface->getHandle(name));
-    }
+    // for (const auto& name : contact_names) {
+    // contactHandles_.push_back(contactInterface->getHandle(name));
+    // }
     imuSensorHandle_ = robot_hw->get<hardware_interface::ImuSensorInterface>()->getHandle("base_imu");
     return true;
   }
@@ -310,12 +310,12 @@ public:
   // The main control loop
   void update(const ros::Time& time, const ros::Duration& period) override {
     // ROS_INFO("Updating TestController, and set command position=10");
-    for (size_t j=0; j<19;j++){
-      hybridJointHandles_[j].setCommand(0, 0, 100, 3, 0);}
-    for (size_t j=0; j<2;j++){  
-    bool iscontact=contactHandles_[j].isContact();
-    ROS_INFO("Handle %zu: %s", j, iscontact ? "true" : "false");
-    }
+    // for (size_t j=0; j<19;j++){
+    //   hybridJointHandles_[j].setCommand(0, 0, 100, 3, 0);}
+    // for (size_t j=0; j<4;j++){  
+    // bool iscontact=contactHandles_[j].isContact();
+    // ROS_INFO("Handle %zu: %s", j, iscontact ? "true" : "false");
+    // }
 
     auto orientation_ = imuSensorHandle_.getOrientation();
     ROS_INFO("IMU Orientation - x: %f, y: %f, z: %f, w: %f", orientation_[0], orientation_[1], orientation_[2], orientation_[3]);
