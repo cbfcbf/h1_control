@@ -1,7 +1,7 @@
 <launch>
     <arg name="robot_type" default="h1" doc="Robot type: [a1, aliengo, go1, laikago]"/>
 
-    <param name="legged_robot_description" command="cat $(find h1_description)/urdf/h1_cbf.urdf"/>
+    <param name="legged_robot_description" command="cat $(find h1_description)/urdf/h1_dynamic.urdf"/>
     
       <rosparam file="$(find h1_description)/config/default.yaml" command="load"/>
 
@@ -14,17 +14,26 @@
     name="spawn_model"
     pkg="gazebo_ros"
     type="spawn_model"
-    args="-file $(find h1_description)/urdf/h1_cbf.urdf -urdf -z 1.05 -model h1_description"
+    args="-file $(find h1_description)/urdf/h1_dynamic.urdf -urdf -z 1.05 -model h1_description"
     output="screen" />
 
 
 <!-- controller -->
     <arg name="cheater" default="true"/>
 
-    <param name="urdfFile" value="$(find legged_controllers)/config/$(arg robot_type)/h1_cbf.urdf"/>
-    <param name="taskFile" value="$(find legged_controllers)/config/$(arg robot_type)/task.info"/>
-    <param name="referenceFile" value="$(find legged_controllers)/config/$(arg robot_type)/reference.info"/>
-    <param name="gaitCommandFile" value="$(find legged_controllers)/config/$(arg robot_type)/gait.info"/>
+    <arg name="taskFile"          default="$(find h1_description)/config/mpc/task.info"/>
+    <!-- The reference related config file of the robot -->
+    <arg name="referenceFile"     default="$(find h1_description)/config/command/reference.info"/>
+    <!-- The URDF model of the robot -->
+    <arg name="urdfFile"          default="$(find h1_description)/urdf/h1_dynamic.urdf"/>
+    <arg name="urdfFileOrigin"    default="$(find h1_description)/urdf/h1_dynamic.urdf"/>
+    <!-- The file defining gait definition -->
+    <arg name="gaitCommandFile"   default="$(find h1_description)/config/command/gait.info"/>
+    <param name="taskFile"          value="$(arg taskFile)" />
+    <param name="referenceFile"     value="$(arg referenceFile)" />
+    <param name="urdfFile"          value="$(arg urdfFile)" />
+    <param name="urdfFileOrigin"          value="$(arg urdfFileOrigin)" />
+    <param name="gaitCommandFile"   value="$(arg gaitCommandFile)"/>
 
     <rosparam file="$(find legged_controllers)/config/controllers.yaml" command="load"/>
 

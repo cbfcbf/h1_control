@@ -8,11 +8,12 @@ find_package(catkin REQUIRED
         COMPONENTS
         roscpp
         legged_common
-        legged_interface
+        humanoid_interface
         legged_wbc
         legged_estimation
         controller_interface
-        ocs2_legged_robot_ros
+        humanoid_dummy
+        # ocs2_legged_robot_ros
         ocs2_self_collision_visualization
         angles
         )
@@ -28,11 +29,12 @@ catkin_package(
         CATKIN_DEPENDS
         roscpp
         legged_common
-        legged_interface
+        humanoid_interface
         legged_wbc
         legged_estimation
         controller_interface
-        ocs2_legged_robot_ros
+        humanoid_dummy
+        # ocs2_legged_robot_ros
         ocs2_self_collision_visualization
         angles
 )

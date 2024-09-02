@@ -10,11 +10,12 @@
 
 #include <ocs2_centroidal_model/CentroidalModelRbdConversions.h>
 #include <ocs2_core/misc/Benchmark.h>
-#include <ocs2_legged_robot_ros/visualization/LeggedRobotVisualizer.h>
+#include <humanoid_dummy/visualization/HumanoidVisualizer.h>
 #include <ocs2_mpc/MPC_MRT_Interface.h>
 
 #include <legged_estimation/StateEstimateBase.h>
-#include <legged_interface/LeggedInterface.h>
+// #include <legged_interface/LeggedInterface.h>
+#include <humanoid_interface/HumanoidInterface.h>
 #include <legged_wbc/WbcBase.h>
 
 #include "legged_controllers/SafetyChecker.h"
@@ -23,7 +24,7 @@
 namespace legged {
 using namespace ocs2;
 using namespace legged_robot;
-
+using namespace ocs2::humanoid;
 class LeggedController : public controller_interface::MultiInterfaceController<HybridJointInterface, hardware_interface::ImuSensorInterface,
                                                                                ContactSensorInterface> {
  public:
@@ -44,7 +45,7 @@ class LeggedController : public controller_interface::MultiInterfaceController<H
   virtual void setupStateEstimate(const std::string& taskFile, bool verbose);
 
   // Interface
-  std::shared_ptr<LeggedInterface> leggedInterface_;
+  std::shared_ptr<HumanoidInterface> leggedInterface_;
   std::shared_ptr<PinocchioEndEffectorKinematics> eeKinematicsPtr_;
   std::vector<HybridJointHandle> hybridJointHandles_;
   std::vector<ContactSensorHandle> contactHandles_;
@@ -65,7 +66,7 @@ class LeggedController : public controller_interface::MultiInterfaceController<H
   std::shared_ptr<MPC_MRT_Interface> mpcMrtInterface_;
 
   // Visualization
-  std::shared_ptr<LeggedRobotVisualizer> robotVisualizer_;
+  std::shared_ptr<HumanoidVisualizer> robotVisualizer_;
   std::shared_ptr<LeggedSelfCollisionVisualization> selfCollisionVisualization_;
   ros::Publisher observationPublisher_;
 
