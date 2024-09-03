@@ -5,11 +5,11 @@ from gazebo_msgs.srv import SetModelConfiguration
 import numpy as np
 
 def set_joint_positions():
-    rospy.init_node('init')
+    rospy.init_node('change_position')
     
     # 等待服务可用
     rospy.wait_for_service('/gazebo/set_model_configuration')
-    
+    # p=np.array([-0.1,0.1,-0.1,0.1,1, 1,-0.5,-0.5,-0.5,-0.5])*1.8
     p=[-0.1,0.1,-0.1,0.1,1.6, 1.6,-0.7,-0.7,-0.9,-0.9]
     try:
         # 创建服务代理

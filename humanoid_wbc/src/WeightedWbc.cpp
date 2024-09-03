@@ -63,6 +63,9 @@ vector_t WeightedWbc::update(const vector_t& stateDesired, const vector_t& input
     if (last_qpSol.size() > 0)
       qpSol = last_qpSol;
   }
+  // else{
+  //   std::cout << "WeightWBC is Solved!!!" << std::endl;
+  // }
 
   last_qpSol = qpSol;
   return qpSol;

@@ -1,4 +1,4 @@
-It is an on-going project...
+This is an on-going project...
 
 # Project Reference
 
@@ -9,16 +9,14 @@ It is an on-going project...
 [humanoid-control by Jialong Xue](https://github.com/pocketxjl/humanoid-control): Nonlinear MPC and WBC framework for humanoid robot based on OCS2 and ros-controls.
 
 # How to one-start?
-   ```
+  ```
     roslaunch legged_controllers test.launch 
-   ```
   ```
-  roslaunch humanoid_dummy legged_robot_sqp.launch
+  ```
+    roslaunch humanoid_dummy legged_robot_sqp.launch
   ```
 
-  rosservice call /gazebo/set_model_configuration "model_name:'h1_description' urdf_param_name:'legged_robot_description' joint_names:['left_knee_joint'] joint_positions: [0.5]"
-
-# legged_control
+# Original Readme: legged_control
 
 ## Introduction
 
