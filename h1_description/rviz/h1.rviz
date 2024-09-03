@@ -228,7 +228,8 @@ Visualization Manager:
       Marker Topic: /humanoid/optimizedStateTrajectory
       Name: MarkerArray
       Namespaces:
-        {}
+        CoM Trajectory: true
+        EE Trajectories: true
       Queue Size: 100
       Value: true
     - Alpha: 1

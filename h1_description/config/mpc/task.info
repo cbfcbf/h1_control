@@ -1,4 +1,4 @@
-centroidalModelType             1      // 0: FullCentroidalDynamics, 1: Single Rigid Body Dynamics
+centroidalModelType             0      // 0: FullCentroidalDynamics, 1: Single Rigid Body Dynamics
   
 humanoid_interface
 {
@@ -13,7 +13,7 @@ model_settings
   phaseTransitionStanceTime     0.4
 
   verboseCppAd                  true
-  recompileLibrariesCppAd       true
+  recompileLibrariesCppAd       false
   modelFolderCppAd              /tmp/ocs2
 }
 
@@ -154,7 +154,7 @@ initialState
    ;; Base Pose: [position, orientation] ;;
    (6,0)  0.0     ; p_base_x
    (7,0)  0.0     ; p_base_y
-   (8,0)  0.8   ; p_base_z
+   (8,0)  0.7   ; p_base_z
    (9,0)  0.0     ; theta_base_z
    (10,0) 0.0     ; theta_base_y
    (11,0) 0.0     ; theta_base_x
@@ -162,14 +162,14 @@ initialState
    ;; Leg Joint Positions: [LF, LH, RF, RH] ;
    (12,0)  0   ; leg_l1_joint
    (13,0)  0   ; leg_l2_joint
-   (14,0)  0   ; leg_l3_joint
-   (15,0)  0.5   ; leg_l4_joint
-   (16,0)  0   ; leg_l5_joint
+   (14,0)  -0.5   ; leg_l3_joint
+   (15,0)  1   ; leg_l4_joint
+   (16,0)  -0.5   ; leg_l5_joint
    (17,0) 0   ; leg_r1_joint
    (18,0)  0.00   ; leg_r2_joint
-   (19,0) 0   ; leg_r3_joint
-   (20,0)  0.5   ; leg_r4_joint
-   (21,0) 0   ; leg_r5_joint
+   (19,0) -0.5  ; leg_r3_joint
+   (20,0)  1  ; leg_r4_joint
+   (21,0) -0.5  ; leg_r5_joint
 }
 
 ; standard state weight matrix

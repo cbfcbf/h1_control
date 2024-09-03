@@ -14,7 +14,7 @@
     name="spawn_model"
     pkg="gazebo_ros"
     type="spawn_model"
-    args="-file $(find h1_description)/urdf/h1_dynamic.urdf -urdf -z 1.05 -model h1_description"
+    args="-file $(find h1_description)/urdf/h1_dynamic.urdf -urdf -z 0.8 -model h1_description"
     output="screen" />
 
 
@@ -57,13 +57,17 @@
           controllers/legged_controller
 "/>
 
-    <node pkg="ocs2_legged_robot_ros" type="legged_robot_gait_command" name="legged_robot_gait_command"
+    <node pkg="humanoid_dummy" type="h1_gait_command" name="h1_robot_gait_command"
           output="screen"/>
+    <!-- <node pkg="ocs2_legged_robot_ros" type="legged_robot_gait_command" name="legged_robot_gait_command"
+          output="screen"/> -->
 
     <node pkg="legged_controllers" type="legged_target_trajectories_publisher" name="legged_robot_target"
           output="screen"/>
 
+
       <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui" output="screen" />
 
+    <node name="init" pkg="legged_controllers" type="init.py" output="screen" launch-prefix="bash -c 'sleep 5; $0 $@'"/>
 
 </launch>
