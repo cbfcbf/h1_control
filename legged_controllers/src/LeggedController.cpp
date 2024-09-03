@@ -20,12 +20,15 @@
 #include <angles/angles.h>
 #include <legged_estimation/FromTopiceEstimate.h>
 #include <legged_estimation/LinearKalmanFilter.h>
-#include <legged_wbc/HierarchicalWbc.h>
-#include <legged_wbc/WeightedWbc.h>
+// #include <legged_wbc/HierarchicalWbc.h>
+// #include <legged_wbc/WeightedWbc.h>
+#include <humanoid_wbc/WeightedWbc.h>
+#include <humanoid_wbc/HierarchicalWbc.h>
 #include <pluginlib/class_list_macros.hpp>
 
 namespace legged {
 using namespace ocs2::humanoid;
+using ocs2::humanoid::WeightedWbc;
 bool LeggedController::init(hardware_interface::RobotHW* robot_hw, ros::NodeHandle& controller_nh) {
   // Initialize OCS2
   std::string urdfFile;

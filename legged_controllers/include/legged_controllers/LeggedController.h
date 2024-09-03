@@ -16,7 +16,8 @@
 #include <legged_estimation/StateEstimateBase.h>
 // #include <legged_interface/LeggedInterface.h>
 #include <humanoid_interface/HumanoidInterface.h>
-#include <legged_wbc/WbcBase.h>
+// #include <legged_wbc/WbcBase.h>
+#include <humanoid_wbc/WbcBase.h>
 
 #include "legged_controllers/SafetyChecker.h"
 #include "legged_controllers/visualization/LeggedSelfCollisionVisualization.h"
@@ -25,6 +26,8 @@ namespace legged {
 using namespace ocs2;
 using namespace legged_robot;
 using namespace ocs2::humanoid;
+using ocs2::humanoid::WbcBase;
+
 class LeggedController : public controller_interface::MultiInterfaceController<HybridJointInterface, hardware_interface::ImuSensorInterface,
                                                                                ContactSensorInterface> {
  public:

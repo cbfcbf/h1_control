@@ -12,6 +12,11 @@ It is an on-going project...
    ```
     roslaunch legged_controllers test.launch 
    ```
+  ```
+  roslaunch humanoid_dummy legged_robot_sqp.launch
+  ```
+
+  rosservice call /gazebo/set_model_configuration "model_name:'h1_description' urdf_param_name:'legged_robot_description' joint_names:['left_knee_joint'] joint_positions: [0.5]"
 
 # legged_control
 

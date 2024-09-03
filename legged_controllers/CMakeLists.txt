@@ -9,7 +9,8 @@ find_package(catkin REQUIRED
         roscpp
         legged_common
         humanoid_interface
-        legged_wbc
+        # legged_wbc
+        humanoid_wbc
         legged_estimation
         controller_interface
         humanoid_dummy
@@ -30,7 +31,8 @@ catkin_package(
         roscpp
         legged_common
         humanoid_interface
-        legged_wbc
+        # legged_wbc
+        humanoid_wbc
         legged_estimation
         controller_interface
         humanoid_dummy

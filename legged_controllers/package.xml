@@ -15,7 +15,8 @@
     <depend>humanoid_interface</depend>
     <depend>humanoid_dummy</depend>
     <depend>legged_estimation</depend>
-    <depend>legged_wbc</depend>
+    <!-- <depend>legged_wbc</depend> -->
+    <depend>humanoid_wbc</depend>
 
     <depend>controller_interface</depend>
     <!-- <depend>ocs2_legged_robot_ros</depend> -->

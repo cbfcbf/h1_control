@@ -1320,7 +1320,7 @@
   <!-- 增加接触点 -->
 
     <joint name="leg_l5_fixed_1" type="fixed">
-      <origin xyz="0.2 0 -0.03" rpy="0 0 0" />
+      <origin xyz="0.2 0 -0.065" rpy="0 0 0" />
       <parent link="left_ankle_link" />
       <child link="leg_l_f1_link" />
     </joint>
@@ -1332,19 +1332,19 @@
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <sphere radius="0.001"/>
+          <sphere radius="0.01"/>
         </geometry>
       </visual>
       <collision>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <sphere radius="0.001"/>
+          <sphere radius="0.01"/>
         </geometry>
       </collision>
     </link>
 
     <joint name="leg_l5_fixed_2" type="fixed">
-      <origin xyz="-0.1 0 -0.03" rpy="0 0 0" />
+      <origin xyz="-0.1 0 -0.065" rpy="0 0 0" />
       <parent link="left_ankle_link" />
       <child link="leg_l_f2_link" />
     </joint>
@@ -1356,19 +1356,19 @@
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <sphere radius="0.001"/>
+          <sphere radius="0.01"/>
         </geometry>
       </visual>
       <collision>
         <origin rpy="0 0 0" xyz="-0 0 0"/>
         <geometry>
-          <sphere radius="0.001"/>
+          <sphere radius="0.01"/>
         </geometry>
       </collision>
     </link>
 
     <joint name="leg_r5_fixed_1" type="fixed">
-      <origin xyz="0.2 0 -0.03" rpy="0 0 0" />
+      <origin xyz="0.2 0 -0.065" rpy="0 0 0" />
       <parent link="right_ankle_link" />
       <child link="leg_r_f1_link" />
     </joint>
@@ -1380,19 +1380,19 @@
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <sphere radius="0.001"/>
+          <sphere radius="0.01"/>
         </geometry>
       </visual>
       <collision>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <sphere radius="0.001"/>
+          <sphere radius="0.01"/>
         </geometry>
       </collision>
     </link>
 
     <joint name="leg_r5_fixed_2" type="fixed">
-      <origin xyz="-0.1 0 -0.03" rpy="0 0 0" />
+      <origin xyz="-0.1 0 -0.065" rpy="0 0 0" />
       <parent link="right_ankle_link" />
       <child link="leg_r_f2_link" />
     </joint>
@@ -1404,16 +1404,17 @@
       <visual>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <sphere radius="0.001"/>
+          <sphere radius="0.01"/>
         </geometry>
       </visual>
       <collision>
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <geometry>
-          <sphere radius="0.001"/>
+          <sphere radius="0.01"/>
         </geometry>
       </collision>
     </link>
+
 
   <!-- gazebo configuration -->
 
