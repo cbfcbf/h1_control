@@ -15,6 +15,7 @@ FromTopicStateEstimate::FromTopicStateEstimate(PinocchioInterface pinocchioInter
 void FromTopicStateEstimate::callback(const nav_msgs::Odometry::ConstPtr& msg) {
   buffer_.writeFromNonRT(*msg);
 }
+//imu position should be on pevsls
 
 vector_t FromTopicStateEstimate::update(const ros::Time& /*time*/, const ros::Duration& /*period*/) {
   nav_msgs::Odometry odom = *buffer_.readFromRT();

@@ -177,7 +177,7 @@ void LeggedController::updateStateEstimation(const ros::Time& time, const ros::D
     angularVelCovariance(i) = imuSensorHandle_.getAngularVelocityCovariance()[i];
     linearAccelCovariance(i) = imuSensorHandle_.getLinearAccelerationCovariance()[i];
   }
-
+  // although imu is not on base,  dx ddx are same??? NO!
   stateEstimate_->updateJointStates(jointPos, jointVel);
   stateEstimate_->updateContact(contactFlag);
   stateEstimate_->updateImu(quat, angularVel, linearAccel, orientationCovariance, angularVelCovariance, linearAccelCovariance);
