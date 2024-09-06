@@ -46,7 +46,7 @@
       <plugin filename="libgazebo_ros_p3d.so" name="p3d_base_controller">
         <alwaysOn>true</alwaysOn>
         <updateRate>1000.0</updateRate>
-        <bodyName>base</bodyName>
+        <bodyName>torso_link</bodyName>
         <topicName>ground_truth/state</topicName>
         <gaussianNoise>0</gaussianNoise>
         <frameName>world</frameName>
@@ -56,22 +56,6 @@
     </gazebo>
 
   <!-- original urdf -->
-    <link
-      name="base">
-    </link>
-
-    <joint
-      name="pelvis_joint"
-      type="fixed">
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <parent
-        link="base" />
-      <child
-        link="pelvis" />
-    </joint>
-
     <link
       name="pelvis">
       <inertial>
@@ -1174,10 +1158,10 @@
       name="imu_joint"
       type="fixed">
       <origin
-        xyz="0 0 0"
+        xyz="-0.04452 -0.01891 0.27756"
         rpy="0 0 0" />
       <parent
-        link="base" />
+        link="torso_link" />
       <child
         link="imu_link" />
     </joint>
@@ -1470,14 +1454,6 @@
     </gazebo>
     <!-- fix的关节不与父连接合并 -->
     <gazebo reference="imu_joint">
-      <disableFixedJointLumping>true</disableFixedJointLumping>
-    </gazebo>
-
-    <gazebo reference="pelvis">
-      <material>Gazebo/Orange</material>
-    </gazebo>
-    <!-- fix的关节不与父连接合并 -->
-    <gazebo reference="pelvis_joint">
       <disableFixedJointLumping>true</disableFixedJointLumping>
     </gazebo>
 
