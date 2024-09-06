@@ -8,13 +8,17 @@ This is an on-going project...
 
 [humanoid-control by Jialong Xue](https://github.com/pocketxjl/humanoid-control): Nonlinear MPC and WBC framework for humanoid robot based on OCS2 and ros-controls.
 
-# How to one-start?
+# Demos
   ```
     roslaunch legged_controllers test.launch 
   ```
+  ![SimDemo](docs/gazebo.gif)
+
   ```
     roslaunch humanoid_dummy legged_robot_sqp.launch
   ```
+  ![RvizDemo](docs/rviz.gif)
+
 
 # Original Readme: legged_control
 
