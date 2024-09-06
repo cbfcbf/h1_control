@@ -12,12 +12,12 @@ This is an on-going project...
   ```
     roslaunch legged_controllers test.launch 
   ```
-  ![SimDemo](docs/gazebo.gif)
+  ![SimDemo](https://github.com/cbfcbf/h1_control/blob/main/docs/gazebo.gif)
 
   ```
     roslaunch humanoid_dummy legged_robot_sqp.launch
   ```
-  ![RvizDemo](docs/rviz.gif)
+  ![RvizDemo](https://github.com/cbfcbf/h1_control/blob/main/docs/rviz.gif)
 
 
 # Original Readme: legged_control
