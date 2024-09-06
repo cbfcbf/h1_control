@@ -12,7 +12,8 @@ This is an on-going project...
   ```
     roslaunch legged_controllers test.launch 
   ```
-  ![SimDemo](https://github.com/cbfcbf/h1_control/blob/main/docs/gazebo.gif)
+  ![Demo](https://github.com/cbfcbf/h1_control/blob/main/docs/demo.gif)
+  <!-- ![SimDemo](https://github.com/cbfcbf/h1_control/blob/main/docs/gazebo.gif) -->
 
   ```
     roslaunch humanoid_dummy legged_robot_sqp.launch
